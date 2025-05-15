@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #uf {
+            display: none;
+        }
+        /* Add additional styling as before */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        div {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+
+        form {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            width: 100%;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007BFF;
+            color: white;
+        }
+
+        td {
+            border: 1px solid #ccc;
+        }
+
+        .btn {
+            padding: 5px 10px;
+            border-radius: 5px;
+            border: none;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+
+        .btn-primary {
+            background-color: #007BFF;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <!--generate list-->
+        <form id="cf" action="javascript:void(0)">
+            <input type="text" name="" id="txt" placeholder="Enter item">
+            <button type="button" onclick="createdata()">Create</button>
+        </form>
+        <!--update list-->
+        <form action="" id="uf">
+            <input type="text" name="" id="uptxt" placeholder="Update item">
+            <button type="button" onclick="updateItem()">Update</button>   
+        </form>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>List</th>
+                    <th>Delete</th>
+                    <th>Update</th>
+                </tr>
+            </thead>
+            <tbody id="tbldata">
+                <!-- List items will be dynamically inserted here -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        let arr = ["book", "sugar", "tea"]; // Initial array
+        let currentIndex = -1; // To track the item being updated
+
+        // Function to create new items
+        function createdata() {
+            let ele = document.getElementById("txt").value;  // Get the value from the input
+            if (ele !== "") {
+                arr.push(ele);  // Add the item to the array
+                display();      // Update the table
+                document.getElementById("txt").value = "";  // Clear the input field
+            }
+        }
+
+        // Function to display the list
+        function display() {
+            let txt = "";
+            for (let i = 0; i < arr.length; i++) {
+                txt += "<tr>";
+                txt += "<td>" + arr[i] + "</td>";
+                txt += '<td><button class="btn btn-danger" onclick="delete1(' + i + ')">Delete</button></td>';
+                txt += '<td><button class="btn btn-primary" onclick="updatedata(' + i + ')">Update</button></td>';
+                txt += "</tr>";
+            }
+            document.getElementById("tbldata").innerHTML = txt;  // Update the table
+        }
+
+        // Function to delete an item
+        function delete1(index) {
+            arr.splice(index, 1);  // Remove the item from the array
+            display();              // Update the table
+        }
+
+        // Function to trigger the update form and display the current item to update
+        function updatedata(index) {
+            currentIndex = index;  // Set the current index for updating
+            document.getElementById("uptxt").value = arr[index];  // Populate the input field with the current value
+            document.getElementById("uf").style.display = "block";  // Show the update form
+        }
+
+        // Function to update the item
+        function updateItem() {
+            let updatedValue = document.getElementById("uptxt").value;  // Get the new value
+            if (updatedValue !== "") {
+                arr[currentIndex] = updatedValue;  // Update the item in the array
+                display();  // Refresh the table
+                document.getElementById("uf").style.display = "none";  // Hide the update form
+            }
+        }
+    </script>
+</body>
+</html>
